@@ -10,6 +10,8 @@ PHP is installed automatically via `apt` if it isn't already present on the runn
 
 ```yaml
 - uses: DaanBaars/GHActionsComposerInstall@v1
+  with:
+    working-directory: ./
 ```
 
 This runs `composer install` in the repository root.
@@ -19,6 +21,7 @@ This runs `composer install` in the repository root.
 ```yaml
 - uses: DaanBaars/GHActionsComposerInstall@v1
   with:
+    working-directory: ./
     composer-options: '--no-dev --optimize-autoloader'
 ```
 
@@ -38,6 +41,7 @@ Resulting command: `composer install --no-dev --optimize-autoloader`.
 ```yaml
 - uses: DaanBaars/GHActionsComposerInstall@v1
   with:
+    working-directory: ./
     expose-composer-version: 'true'
 ```
 
@@ -47,8 +51,8 @@ Adds a dedicated `Show Composer version` step to the workflow log.
 
 | Name                      | Required | Default | Description                                                                |
 | ------------------------- | -------- | ------- | -------------------------------------------------------------------------- |
+| `working-directory`       | **Yes**  | —       | Directory in which `composer install` is executed.                         |
 | `composer-options`        | No       | `''`    | Extra options appended to `composer install` (e.g. `--no-dev`).            |
-| `working-directory`       | No       | `.`     | Directory in which `composer install` is executed.                         |
 | `expose-composer-version` | No       | `false` | When `'true'`, runs `composer --version` as a dedicated step at the end.   |
 
 ## How it works

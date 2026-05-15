@@ -12,8 +12,7 @@ inputs:
     default: ''
   working-directory:
     description: 'Directory in which composer install is executed.'
-    required: false
-    default: '.'
+    required: true
   expose-composer-version:
     description: 'When "true", runs `composer --version` as a dedicated step at the end.'
     required: false
