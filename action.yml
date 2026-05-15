@@ -1,17 +1,17 @@
 name: 'Setup Composer'
-description: 'Securely installs Composer using the official installer (with checksum verification) and optionally runs an install command.'
-author: 'Daan Baars'
+description: 'Securely installs Composer using the official installer (with checksum verification) and runs composer install with optional flags.'
+author: 'Your Name'
 branding:
   icon: 'package'
   color: 'orange'
 
 inputs:
-  install:
-    description: 'Command to run after installing Composer. Set to an empty string to skip.'
+  composer-options:
+    description: 'Additional options to pass to composer install (e.g. "--no-dev --optimize-autoloader").'
     required: false
-    default: 'composer install'
+    default: ''
   working-directory:
-    description: 'Directory in which the install command is executed.'
+    description: 'Directory in which composer install is executed.'
     required: false
     default: '.'
 
@@ -52,8 +52,7 @@ runs:
         rm composer-setup.php
         composer --version
 
-    - name: Run install command
-      if: ${{ inputs.install != '' }}
+    - name: Run composer install
       shell: bash
       working-directory: ${{ inputs.working-directory }}
-      run: ${{ inputs.install }}
+      run: composer install ${{ inputs.composer-options }}

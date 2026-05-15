@@ -1,6 +1,6 @@
 # Setup Composer Action
 
-A GitHub Action that installs [Composer](https://getcomposer.org/) using the official installer (with SHA-384 checksum verification) and optionally runs an install command.
+A GitHub Action that installs [Composer](https://getcomposer.org/) using the official installer (with SHA-384 checksum verification) and runs `composer install`.
 
 PHP is installed automatically via `apt` if it isn't already present on the runner, so the action works out of the box on `ubuntu-latest` and on most Debian/Ubuntu-based containers.
 
@@ -9,41 +9,36 @@ PHP is installed automatically via `apt` if it isn't already present on the runn
 ### Basic
 
 ```yaml
-- uses: actions/checkout@v4
-- uses: daan-baars/composer-setup-action@v1
+- uses: DaanBaars/GHActionsComposerInstall@v1
 ```
 
-### Custom install command
+This runs `composer install` in the repository root.
+
+### With composer install options
 
 ```yaml
-- uses: daan-baars/composer-setup-action@v1
+- uses: DaanBaars/GHActionsComposerInstall@v1
   with:
-    install: 'composer install --no-dev --optimize-autoloader'
+    composer-options: '--no-dev --optimize-autoloader'
 ```
 
-### Install Composer only (skip the install step)
-
-```yaml
-- uses: daan-baars/composer-setup-action@v1
-  with:
-    install: ''
-```
+Resulting command: `composer install --no-dev --optimize-autoloader`.
 
 ### Run in a sub-directory
 
 ```yaml
-- uses: daan-baars/composer-setup-action@v1
+- uses: DaanBaars/GHActionsComposerInstall@v1
   with:
     working-directory: ./backend
-    install: 'composer install'
+    composer-options: '--no-progress --prefer-dist'
 ```
 
 ## Inputs
 
-| Name                | Required | Default             | Description                                                                  |
-| ------------------- | -------- | ------------------- | ---------------------------------------------------------------------------- |
-| `install`           | No       | `composer install`  | Command to run after Composer is installed. Set to an empty string to skip.  |
-| `working-directory` | No       | `.`                 | Directory in which the install command is executed.                          |
+| Name                | Required | Default | Description                                                                |
+| ------------------- | -------- | ------- | -------------------------------------------------------------------------- |
+| `composer-options`  | No       | `''`    | Extra options appended to `composer install` (e.g. `--no-dev`).            |
+| `working-directory` | No       | `.`     | Directory in which `composer install` is executed.                         |
 
 ## How it works
 
@@ -52,13 +47,7 @@ PHP is installed automatically via `apt` if it isn't already present on the runn
 3. Downloads the installer from `getcomposer.org/installer`.
 4. Verifies the SHA-384 checksum matches the official signature.
 5. Installs `composer` globally to `/usr/local/bin/composer` (uses `sudo` automatically when not running as root).
-6. Runs the configured install command unless it's an empty string.
-
-## Publishing your own copy
-
-1. Push the contents of this directory (`action.yml` + `README.md`) to the root of a new GitHub repo, e.g. `your-org/composer-setup-action`.
-2. Tag a release: `git tag v1 && git push --tags`.
-3. Reference it from workflows as `your-org/composer-setup-action@v1`.
+6. Runs `composer install` with the provided `composer-options` in `working-directory`.
 
 ## License
 
