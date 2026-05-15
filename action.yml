@@ -14,6 +14,10 @@ inputs:
     description: 'Directory in which composer install is executed.'
     required: false
     default: '.'
+  expose-composer-version:
+    description: 'When "true", runs `composer --version` as a dedicated step at the end.'
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -56,3 +60,8 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       run: composer install ${{ inputs.composer-options }}
+
+    - name: Show Composer version
+      if: ${{ inputs.expose-composer-version == 'true' }}
+      shell: bash
+      run: composer --version

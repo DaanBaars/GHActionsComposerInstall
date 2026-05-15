@@ -33,12 +33,23 @@ Resulting command: `composer install --no-dev --optimize-autoloader`.
     composer-options: '--no-progress --prefer-dist'
 ```
 
+### Show the installed Composer version
+
+```yaml
+- uses: DaanBaars/GHActionsComposerInstall@v1
+  with:
+    expose-composer-version: 'true'
+```
+
+Adds a dedicated `Show Composer version` step to the workflow log.
+
 ## Inputs
 
-| Name                | Required | Default | Description                                                                |
-| ------------------- | -------- | ------- | -------------------------------------------------------------------------- |
-| `composer-options`  | No       | `''`    | Extra options appended to `composer install` (e.g. `--no-dev`).            |
-| `working-directory` | No       | `.`     | Directory in which `composer install` is executed.                         |
+| Name                      | Required | Default | Description                                                                |
+| ------------------------- | -------- | ------- | -------------------------------------------------------------------------- |
+| `composer-options`        | No       | `''`    | Extra options appended to `composer install` (e.g. `--no-dev`).            |
+| `working-directory`       | No       | `.`     | Directory in which `composer install` is executed.                         |
+| `expose-composer-version` | No       | `false` | When `'true'`, runs `composer --version` as a dedicated step at the end.   |
 
 ## How it works
 
